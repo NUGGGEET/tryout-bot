@@ -25,106 +25,45 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 // Temporary storage for tryout data
 const pendingTryouts = new Map();
 
-const TOKEN = 'YOUR_TOKEN_HERE'; // Replace with your bot token
-const ALLOWED_GUILD_ID = 'YOUR_SERVER_ID'; // The only guild the bot is allowed to operate in ORIGINAL one: 1344501419943661608
+const TOKEN = 'MTQwNDU1NDEwMjg1OTYzMjc3MQ.GvMYet.lQgcIymgKq38aEJxU48YKOuHTVUeiO7OPgTCVY'; // Replace with your bot token
+const ALLOWED_GUILD_ID = '1344501419943661608'; // The only guild the bot is allowed to operate in ORIGINAL one: 1344501419943661608
 
 // Define allowed roles for interactions (replace with actual Tryout Host role ID)
-const ALLOWED_ROLES = ['1344513953132445697', '1353401830134124564', '1353401886153248839', '1356797774741639199', '1344664875485626378', '1356665433662685230']; // Role ID for Tryout Host
+const ALLOWED_ROLES = ['1404545845579354214']; // Role ID for Tryout Host
 
 // Define division roles with role IDs for MVSD, RIVALS, TSB
-const GAME_PREFIXES = {
-  MVSD: 'MVSD',
-  RIVALS: 'RV',
-  TSB: 'TSB'
-};
+const GAME_PREFIXES = {RIVALS: 'RV'};
 const DIVISION_ROLES = {
-  MVSD: {
-    'MVSD Division 1': { 
-      roleIds: ['1344810744843079750', '1344697648568995861'], // Replace with MVSD Imperial Warlord, MVSD Division 1 role IDs
-      color: '#FFD700', 
-      minScore: 48, 
-      requiredRoles: ['1344810744843079750', '1344697648568995861'] // Same as roleIds for Division 1
-    },
-    'MVSD Division 2': { 
-      roleIds: ['1344810875248181268', '1345014180859740222'], // Replace with MVSD Grand Reaper, MVSD Division 2 role IDs
-      color: '#C0C0C0', 
-      minScore: 43, 
-      maxScore: 47, 
-      requiredRoles: ['1344810744843079750', '1344697648568995861', '1344810875248181268', '1345014180859740222'] 
-    },
-    'MVSD Division 3': { 
-      roleIds: ['1344811535540686960', '1344664130896003185'], // Replace with MVSD Reaper, MVSD Division 3 role IDs
-      color: '#CD7F32', 
-      minScore: 30, 
-      maxScore: 42, 
-      requiredRoles: ['1344810744843079750', '1344697648568995861', '1344810875248181268', '1345014180859740222'] 
-    },
-    'MVSD Division 4': { 
-      roleIds: ['1344811658551230485', '1346823147135172692'], // Replace with MVSD Guard, MVSD Division 4 role IDs
-      color: '#00FF00', 
-      minScore: 0, 
-      maxScore: 29, 
-      requiredRoles: ['1344810744843079750', '1344697648568995861', '1344810875248181268', '1345014180859740222'] 
-    }
-  },
+
   RIVALS: {
     'RV Division 1': { 
-      roleIds: ['1348010338280280104', '1344697648568995861'], // Replace with RV Imperial Warlord, RV Division 1 role IDs
+      roleIds: ['1404550423284547644'], // Replace with RV Imperial Warlord, RV Division 1 role IDs
       color: '#FFD700', 
       minScore: 48, 
-      requiredRoles: ['1348010338280280104', '1344697648568995861'] // first one rv div 1 second one is imperial warlord
+      //requiredRoles: ['1348010338280280104', '1344697648568995861'] // first one rv div 1 second one is imperial warlord
     },
     'RV Division 2': { 
-      roleIds: ['1348010286547730473', '1345014180859740222'], // Replace with RV Grand Reaper, RV Division 2 role IDs
+      roleIds: ['1404550579685949590'], // Replace with RV Grand Reaper, RV Division 2 role IDs
       color: '#C0C0C0', 
       minScore: 43, 
       maxScore: 47, 
-      requiredRoles: ['1348010286547730473', '1345014180859740222', '1348010338280280104', '1344697648568995861'] 
+   //   requiredRoles: ['1348010286547730473', '1345014180859740222', '1348010338280280104', '1344697648568995861'] 
     },
     'RV Division 3': { 
-      roleIds: ['1348010236673523752', '1344664130896003185'], // Replace with RV Reaper, RV Division 3 role IDs
+      roleIds: ['1404550649546281131'], // Replace with RV Reaper, RV Division 3 role IDs
       color: '#CD7F32', 
       minScore: 30, 
       maxScore: 42, 
-      requiredRoles: ['1348010286547730473', '1345014180859740222', '1348010338280280104', '1344697648568995861'] 
+     // requiredRoles: ['1348010286547730473', '1345014180859740222', '1348010338280280104', '1344697648568995861'] 
     },
     'RV Division 4': { 
-      roleIds: ['1346823147135172692', '1348010092804706315'], // Replace with RV Guard, RV Division 4 role IDs
+      roleIds: ['1404550824897806387'], // Replace with RV Guard, RV Division 4 role IDs
       color: '#00FF00', 
       minScore: 0, 
       maxScore: 29, 
-      requiredRoles: ['1348010286547730473', '1345014180859740222', '1348010338280280104', '1344697648568995861'] 
+     // requiredRoles: ['1348010286547730473', '1345014180859740222', '1348010338280280104', '1344697648568995861'] 
     }
-  },
-  TSB: {
-    'TSB Division 1': { 
-      roleIds: ['1344697648568995861', '1389356996720988260'], // Replace with TSB Imperial Warlord, TSB Division 1 role IDs
-      color: 'rgba(255, 215, 0, 1)', 
-      minScore: 48, 
-      requiredRoles: ['1344697648568995861', '1389356996720988260'] 
-    },
-    'TSB Division 2': { 
-      roleIds: ['1348010286547730473', '1345014180859740222'], // Replace with TSB Grand Reaper, TSB Division 2 role IDs
-      color: '#C0C0C0', 
-      minScore: 43, 
-      maxScore: 47, 
-      requiredRoles: ['1344697648568995861', '1389356996720988260', '1348010286547730473', '1345014180859740222'] 
-    },
-    'TSB Division 3': { 
-      roleIds: ['1389357287553896611', '1344664130896003185'], // Replace with TSB Reaper, TSB Division 3 role IDs
-      color: '#CD7F32', 
-      minScore: 30, 
-      maxScore: 42, 
-      requiredRoles: ['1344697648568995861', '1389356996720988260', '1348010286547730473', '1345014180859740222'] 
-    },
-    'TSB Division 4': { 
-      roleIds: ['1389357444957732865', '1346823147135172692'], // Replace with TSB Guard, TSB Division 4 role IDs
-      color: '#00FF00', 
-      minScore: 0, 
-      maxScore: 29, 
-      requiredRoles: ['1344697648568995861', '1389356996720988260', '1348010286547730473', '1345014180859740222'] 
-    }
-  }
+  
 };
 
 client.once('ready', () => {
@@ -170,49 +109,47 @@ client.on('interactionCreate', async interaction => {
         .setTitle('Tryout Assignment System')
         .setDescription('Select a game to assign tryout scores and division.')
         .setColor('#0099ff')
-        .setFooter({ text: 'Tryout Bot | Created in 2 Days' })
+        .setFooter({ text: 'Not accused' })
         .setTimestamp();
 
       const row = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('tryout_mvsd').setLabel('MVSD').setStyle(ButtonStyle.Primary),
         new ButtonBuilder().setCustomId('tryout_rivals').setLabel('Rivals').setStyle(ButtonStyle.Primary),
-        new ButtonBuilder().setCustomId('tryout_tsb').setLabel('TSB').setStyle(ButtonStyle.Primary)
       );
 
-      await interaction.reply({ embeds: [embed], components: [row] });
-    } else if (interaction.commandName === 'cat') {
-      try {
-        const response = await axios.get('https://api.thecatapi.com/v1/images/search');
-        const imageUrl = response.data[0].url;
+     // await interaction.reply({ embeds: [embed], components: [row] });
+ //   } else if (interaction.commandName === 'cat') {
+   //   try {
+     //   const response = await axios.get('https://api.thecatapi.com/v1/images/search');
+     //   const imageUrl = response.data[0].url;
+//delete it later if not work
+      //  const embed = new EmbedBuilder()
+     //     .setTitle('Here\'s a Cute Cat!')
+      //    .setImage(imageUrl)
+      //    .setColor('#FF69B4')
+       //   .setFooter({ text: 'Tryout Bot | Created in 2 Days' })
+        //  .setTimestamp();
 
-        const embed = new EmbedBuilder()
-          .setTitle('Here\'s a Cute Cat!')
-          .setImage(imageUrl)
-          .setColor('#FF69B4')
-          .setFooter({ text: 'Tryout Bot | Created in 2 Days' })
-          .setTimestamp();
+        //await interaction.reply({ embeds: [embed] });
+   //   } catch (error) {
+      //  console.error(`Error fetching cat image: ${error.message}`);
+      //  await interaction.reply({ content: 'Failed to fetch a cat image. Try again later!', ephemeral: true });
+   //   }
+   // } else if (interaction.commandName === 'dog') {
+  //    try {
+      //  const response = await axios.get('https://dog.ceo/api/breeds/image/random');
+      //  const imageUrl = response.data.message;
 
-        await interaction.reply({ embeds: [embed] });
-      } catch (error) {
-        console.error(`Error fetching cat image: ${error.message}`);
-        await interaction.reply({ content: 'Failed to fetch a cat image. Try again later!', ephemeral: true });
-      }
-    } else if (interaction.commandName === 'dog') {
-      try {
-        const response = await axios.get('https://dog.ceo/api/breeds/image/random');
-        const imageUrl = response.data.message;
+        //const embed = new EmbedBuilder()
+       //   .setTitle('Here\'s a Cute Dog!')
+        //  .setImage(imageUrl)
+         // .setColor('#FFA500')
+         // .setFooter({ text: 'Tryout Bot | Created in 2 Days' })
+         // .setTimestamp();
 
-        const embed = new EmbedBuilder()
-          .setTitle('Here\'s a Cute Dog!')
-          .setImage(imageUrl)
-          .setColor('#FFA500')
-          .setFooter({ text: 'Tryout Bot | Created in 2 Days' })
-          .setTimestamp();
-
-        await interaction.reply({ embeds: [embed] });
-      } catch (error) {
-        console.error(`Error fetching dog image: ${error.message}`);
-        await interaction.reply({ content: 'Failed to fetch a dog image. Try again later!', ephemeral: true });
+     //   await interaction.reply({ embeds: [embed] });
+    //  } catch (error) {
+    //    console.error(`Error fetching dog image: ${error.message}`);
+    //    await interaction.reply({ content: 'Failed to fetch a dog image. Try again later!', ephemeral: true });
       }
     }
   }
@@ -237,38 +174,14 @@ client.on('interactionCreate', async interaction => {
     const actionRows = [
       new ActionRowBuilder().addComponents(userIdInput)
     ];
-
-    if (game === 'MVSD') {
-      actionRows.push(
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('perks').setLabel('Perks (e.g., 5-3)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('no_perks').setLabel('No Perks (e.g., 4-2)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('aim').setLabel('Aim (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        )
-      );
-    } else if (game === 'RIVALS') {
+//need fisking
+    if(game === 'RIVALS') {
       actionRows.push(
         new ActionRowBuilder().addComponents(
           new TextInputBuilder().setCustomId('aim').setLabel('Aim (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
         ),
         new ActionRowBuilder().addComponents(
           new TextInputBuilder().setCustomId('game_sense').setLabel('Game Sense (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('juking').setLabel('Juking (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        )
-      );
-    } else if (game === 'TSB') {
-      actionRows.push(
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('movement').setLabel('Movement (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('combo').setLabel('Combo (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
         ),
         new ActionRowBuilder().addComponents(
           new TextInputBuilder().setCustomId('juking').setLabel('Juking (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
@@ -286,18 +199,10 @@ client.on('interactionCreate', async interaction => {
     const userId = interaction.fields.getTextInputValue('user_id');
 
     const tryoutData = { userId, game };
-
-    if (game === 'MVSD') {
-      tryoutData.perks = interaction.fields.getTextInputValue('perks');
-      tryoutData.noPerks = interaction.fields.getTextInputValue('no_perks');
-      tryoutData.aim = parseInt(interaction.fields.getTextInputValue('aim'));
-    } else if (game === 'RIVALS') {
+   
+      if (game === 'RIVALS') {
       tryoutData.aim = parseInt(interaction.fields.getTextInputValue('aim'));
       tryoutData.gameSense = parseInt(interaction.fields.getTextInputValue('game_sense'));
-      tryoutData.juking = parseInt(interaction.fields.getTextInputValue('juking'));
-    } else if (game === 'TSB') {
-      tryoutData.movement = parseInt(interaction.fields.getTextInputValue('movement'));
-      tryoutData.combo = parseInt(interaction.fields.getTextInputValue('combo'));
       tryoutData.juking = parseInt(interaction.fields.getTextInputValue('juking'));
     }
 
@@ -334,22 +239,7 @@ client.on('interactionCreate', async interaction => {
       .setTitle(`${game} Tryout Assignment - Part 2`);
 
     let secondActionRows = [];
-    if (game === 'MVSD') {
-      secondActionRows = [
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('game_sense').setLabel('Game Sense (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('juking').setLabel('Juking (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('cover').setLabel('Cover (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('movement').setLabel('Movement (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        )
-      ];
-    } else if (game === 'RIVALS') {
+    if (game === 'RIVALS') {
       secondActionRows = [
         new ActionRowBuilder().addComponents(
           new TextInputBuilder().setCustomId('cover').setLabel('Cover (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
@@ -358,16 +248,6 @@ client.on('interactionCreate', async interaction => {
           new TextInputBuilder().setCustomId('movement').setLabel('Movement (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
         )
       ];
-    } else if (game === 'TSB') {
-      secondActionRows = [
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('blocking').setLabel('Blocking (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder().setCustomId('main').setLabel('Main (0-10)').setStyle(TextInputStyle.Short).setRequired(true)
-        )
-      ];
-    }
 
     secondActionRows.push(
       new ActionRowBuilder().addComponents(
@@ -393,26 +273,14 @@ client.on('interactionCreate', async interaction => {
 
     tryoutData.additionalNotes = interaction.fields.getTextInputValue('additional_notes') || '';
 
-    if (game === 'MVSD') {
-      tryoutData.gameSense = parseInt(interaction.fields.getTextInputValue('game_sense'));
-      tryoutData.juking = parseInt(interaction.fields.getTextInputValue('juking'));
+     if (game === 'RIVALS') {
       tryoutData.cover = parseInt(interaction.fields.getTextInputValue('cover'));
-      tryoutData.movement = parseInt(interaction.fields.getTextInputValue('movement'));
-    } else if (game === 'RIVALS') {
-      tryoutData.cover = parseInt(interaction.fields.getTextInputValue('cover'));
-      tryoutData.movement = parseInt(interaction.fields.getTextInputValue('movement'));
-    } else if (game === 'TSB') {
-      tryoutData.blocking = parseInt(interaction.fields.getTextInputValue('blocking'));
-      tryoutData.main = parseInt(interaction.fields.getTextInputValue('main'));
+      tryoutData.movement = parseInt(interaction.fields.getTextInputValue('movement'))
     }
 
     let totalScore = 0;
-    if (game === 'MVSD') {
+    if (game === 'RIVALS') {
       totalScore = (tryoutData.aim || 0) + (tryoutData.gameSense || 0) + (tryoutData.juking || 0) + (tryoutData.cover || 0) + (tryoutData.movement || 0);
-    } else if (game === 'RIVALS') {
-      totalScore = (tryoutData.aim || 0) + (tryoutData.gameSense || 0) + (tryoutData.juking || 0) + (tryoutData.cover || 0) + (tryoutData.movement || 0);
-    } else if (game === 'TSB') {
-      totalScore = (tryoutData.movement || 0) + (tryoutData.combo || 0) + (tryoutData.juking || 0) + (tryoutData.blocking || 0) + (tryoutData.main || 0);
     }
     tryoutData.totalScore = totalScore;
 
@@ -450,31 +318,13 @@ client.on('interactionCreate', async interaction => {
       .addFields({ name: 'Game', value: game, inline: true })
       .addFields({ name: 'Division', value: divisionKey, inline: true });
 
-    if (game === 'MVSD') {
-      confirmEmbed.addFields(
-        { name: 'Perks', value: tryoutData.perks || '0-0', inline: true },
-        { name: 'No Perks', value: tryoutData.noPerks || '0-0', inline: true },
-        { name: 'Aim', value: `${tryoutData.aim || 0}/10`, inline: true },
-        { name: 'Game Sense', value: `${tryoutData.gameSense || 0}/10`, inline: true },
-        { name: 'Juking', value: `${tryoutData.juking || 0}/10`, inline: true },
-        { name: 'Cover', value: `${tryoutData.cover || 0}/10`, inline: true },
-        { name: 'Movement', value: `${tryoutData.movement || 0}/10`, inline: true }
-      );
-    } else if (game === 'RIVALS') {
+     if (game === 'RIVALS') {
       confirmEmbed.addFields(
         { name: 'Aim', value: `${tryoutData.aim || 0}/10`, inline: true },
         { name: 'Game Sense', value: `${tryoutData.gameSense || 0}/10`, inline: true },
         { name: 'Juking', value: `${tryoutData.juking || 0}/10`, inline: true },
         { name: 'Cover', value: `${tryoutData.cover || 0}/10`, inline: true },
         { name: 'Movement', value: `${tryoutData.movement || 0}/10`, inline: true }
-      );
-    } else if (game === 'TSB') {
-      confirmEmbed.addFields(
-        { name: 'Movement', value: `${tryoutData.movement || 0}/10`, inline: true },
-        { name: 'Combo', value: `${tryoutData.combo || 0}/10`, inline: true },
-        { name: 'Juking', value: `${tryoutData.juking || 0}/10`, inline: true },
-        { name: 'Blocking', value: `${tryoutData.blocking || 0}/10`, inline: true },
-        { name: 'Main', value: `${tryoutData.main || 0}/10`, inline: true }
       );
     }
 
@@ -482,7 +332,7 @@ client.on('interactionCreate', async interaction => {
       confirmEmbed.addFields({ name: 'Additional Notes', value: tryoutData.additionalNotes });
     }
     confirmEmbed.addFields({ name: 'Total Score', value: `${totalScore}/50` })
-      .setFooter({ text: 'Tryout Bot | Created in 2 Days' });
+      .setFooter({ text: 'Not accused' });
 
     const confirmButton = new ButtonBuilder()
       .setCustomId(`confirm_tryout_${game.toLowerCase()}`)
@@ -551,34 +401,7 @@ client.on('interactionCreate', async interaction => {
       )
     ];
 
-    if (game === 'MVSD') {
-      actionRows.push(
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder()
-            .setCustomId('perks')
-            .setLabel('Perks (e.g., 5-3)')
-            .setStyle(TextInputStyle.Short)
-            .setValue(tryoutData.perks || '')
-            .setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder()
-            .setCustomId('no_perks')
-            .setLabel('No Perks (e.g., 4-2)')
-            .setStyle(TextInputStyle.Short)
-            .setValue(tryoutData.noPerks || '')
-            .setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder()
-            .setCustomId('aim')
-            .setLabel('Aim (0-10)')
-            .setStyle(TextInputStyle.Short)
-            .setValue(`${tryoutData.aim || 0}`)
-            .setRequired(true)
-        )
-      );
-    } else if (game === 'RIVALS') {
+   if (game === 'RIVALS') {
       actionRows.push(
         new ActionRowBuilder().addComponents(
           new TextInputBuilder()
@@ -605,35 +428,9 @@ client.on('interactionCreate', async interaction => {
             .setRequired(true)
         )
       );
-    } else if (game === 'TSB') {
-      actionRows.push(
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder()
-            .setCustomId('movement')
-            .setLabel('Movement (0-10)')
-            .setStyle(TextInputStyle.Short)
-            .setValue(`${tryoutData.movement || 0}`)
-            .setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder()
-            .setCustomId('combo')
-            .setLabel('Combo (0-10)')
-            .setStyle(TextInputStyle.Short)
-            .setValue(`${tryoutData.combo || 0}`)
-            .setRequired(true)
-        ),
-        new ActionRowBuilder().addComponents(
-          new TextInputBuilder()
-            .setCustomId('juking')
-            .setLabel('Juking (0-10)')
-            .setStyle(TextInputStyle.Short)
-            .setValue(`${tryoutData.juking || 0}`)
-            .setRequired(true)
-        )
-      );
     }
 
+   
     actionRows.push(
       new ActionRowBuilder().addComponents(
         new TextInputBuilder()
@@ -660,35 +457,17 @@ client.on('interactionCreate', async interaction => {
     tryoutData.userId = interaction.fields.getTextInputValue('user_id');
     tryoutData.additionalNotes = interaction.fields.getTextInputValue('additional_notes') || '';
 
-    if (game === 'MVSD') {
-      tryoutData.perks = interaction.fields.getTextInputValue('perks');
-      tryoutData.noPerks = interaction.fields.getTextInputValue('no_perks');
-      tryoutData.aim = parseInt(interaction.fields.getTextInputValue('aim'));
-      tryoutData.gameSense = tryoutData.gameSense || 0;
-      tryoutData.juking = tryoutData.juking || 0;
-      tryoutData.cover = tryoutData.cover || 0;
-      tryoutData.movement = tryoutData.movement || 0;
-    } else if (game === 'RIVALS') {
+    if (game === 'RIVALS') {
       tryoutData.aim = parseInt(interaction.fields.getTextInputValue('aim'));
       tryoutData.gameSense = parseInt(interaction.fields.getTextInputValue('game_sense'));
       tryoutData.juking = parseInt(interaction.fields.getTextInputValue('juking'));
       tryoutData.cover = tryoutData.cover || 0;
       tryoutData.movement = tryoutData.movement || 0;
-    } else if (game === 'TSB') {
-      tryoutData.movement = parseInt(interaction.fields.getTextInputValue('movement'));
-      tryoutData.combo = parseInt(interaction.fields.getTextInputValue('combo'));
-      tryoutData.juking = parseInt(interaction.fields.getTextInputValue('juking'));
-      tryoutData.blocking = tryoutData.blocking || 0;
-      tryoutData.main = tryoutData.main || 0;
     }
 
-    let totalScore = 0;
-    if (game === 'MVSD') {
+    let totalScore = 0;  
+    if (game === 'RIVALS') {
       totalScore = (tryoutData.aim || 0) + (tryoutData.gameSense || 0) + (tryoutData.juking || 0) + (tryoutData.cover || 0) + (tryoutData.movement || 0);
-    } else if (game === 'RIVALS') {
-      totalScore = (tryoutData.aim || 0) + (tryoutData.gameSense || 0) + (tryoutData.juking || 0) + (tryoutData.cover || 0) + (tryoutData.movement || 0);
-    } else if (game === 'TSB') {
-      totalScore = (tryoutData.movement || 0) + (tryoutData.combo || 0) + (tryoutData.juking || 0) + (tryoutData.blocking || 0) + (tryoutData.main || 0);
     }
     tryoutData.totalScore = totalScore;
 
@@ -725,32 +504,13 @@ client.on('interactionCreate', async interaction => {
       .addFields({ name: 'User ID', value: tryoutData.userId, inline: true })
       .addFields({ name: 'Game', value: game, inline: true })
       .addFields({ name: 'Division', value: divisionKey, inline: true });
-
-    if (game === 'MVSD') {
-      confirmEmbed.addFields(
-        { name: 'Perks', value: tryoutData.perks || '0-0', inline: true },
-        { name: 'No Perks', value: tryoutData.noPerks || '0-0', inline: true },
-        { name: 'Aim', value: `${tryoutData.aim || 0}/10`, inline: true },
-        { name: 'Game Sense', value: `${tryoutData.gameSense || 0}/10`, inline: true },
-        { name: 'Juking', value: `${tryoutData.juking || 0}/10`, inline: true },
-        { name: 'Cover', value: `${tryoutData.cover || 0}/10`, inline: true },
-        { name: 'Movement', value: `${tryoutData.movement || 0}/10`, inline: true }
-      );
-    } else if (game === 'RIVALS') {
+   if (game === 'RIVALS') {
       confirmEmbed.addFields(
         { name: 'Aim', value: `${tryoutData.aim || 0}/10`, inline: true },
         { name: 'Game Sense', value: `${tryoutData.gameSense || 0}/10`, inline: true },
         { name: 'Juking', value: `${tryoutData.juking || 0}/10`, inline: true },
         { name: 'Cover', value: `${tryoutData.cover || 0}/10`, inline: true },
         { name: 'Movement', value: `${tryoutData.movement || 0}/10`, inline: true }
-      );
-    } else if (game === 'TSB') {
-      confirmEmbed.addFields(
-        { name: 'Movement', value: `${tryoutData.movement || 0}/10`, inline: true },
-        { name: 'Combo', value: `${tryoutData.combo || 0}/10`, inline: true },
-        { name: 'Juking', value: `${tryoutData.juking || 0}/10`, inline: true },
-        { name: 'Blocking', value: `${tryoutData.blocking || 0}/10`, inline: true },
-        { name: 'Main', value: `${tryoutData.main || 0}/10`, inline: true }
       );
     }
 
@@ -842,33 +602,13 @@ async function processTryout(interaction, tryoutData) {
       .addFields({ name: 'Game', value: game, inline: true })
       .addFields({ name: 'Division', value: divisionKey, inline: true });
 
-    if (game === 'MVSD') {
-      resultEmbed.addFields(
-        { name: 'Perks', value: perks || '0-0', inline: true },
-        { name: 'No Perks', value: noPerks || '0-0', inline: true },
-        { name: 'Aim', value: `${aim || 0}/10`, inline: true },
-        { name: 'Game Sense', value: `${gameSense || 0}/10`, inline: true },
-        { name: 'Juking', value: `${juking || 0}/10`, inline: true },
-        { name: 'Cover', value: `${cover || 0}/10`, inline: true },
-        { name: 'Movement', value: `${movement || 0}/10`, inline: true },
-        { name: 'Total Score', value: `${totalScore}/50` }
-      );
-    } else if (game === 'RIVALS') {
+    if (game === 'RIVALS') {
       resultEmbed.addFields(
         { name: 'Aim', value: `${aim || 0}/10`, inline: true },
         { name: 'Game Sense', value: `${gameSense || 0}/10`, inline: true },
         { name: 'Juking', value: `${juking || 0}/10`, inline: true },
         { name: 'Cover', value: `${cover || 0}/10`, inline: true },
         { name: 'Movement', value: `${movement || 0}/10`, inline: true },
-        { name: 'Total Score', value: `${totalScore}/50` }
-      );
-    } else if (game === 'TSB') {
-      resultEmbed.addFields(
-        { name: 'Movement', value: `${movement || 0}/10`, inline: true },
-        { name: 'Combo', value: `${combo || 0}/10`, inline: true },
-        { name: 'Juking', value: `${juking || 0}/10`, inline: true },
-        { name: 'Blocking', value: `${blocking || 0}/10`, inline: true },
-        { name: 'Main', value: `${main || 0}/10`, inline: true },
         { name: 'Total Score', value: `${totalScore}/50` }
       );
     }
@@ -924,20 +664,20 @@ client.on('ready', async () => {
       return;
     }
 
-    const commands = [
-      {
-        name: 'tryout',
-        description: 'Send the tryout assignment embed'
-      },
-      {
-        name: 'cat',
-        description: 'Get a cute cat picture'
-      },
-      {
-        name: 'dog',
-        description: 'Get a cute dog picture'
-      }
-    ];
+    //const commands = [
+    //  {
+      //  name: 'tryout',
+     //   description: 'Send the tryout assignment embed'
+      //},
+    //  {
+     //   name: 'cat',
+     //   description: 'Get a cute cat picture'
+     // },
+     // {
+    //    name: 'dog',
+    //    description: 'Get a cute dog picture'
+    //  }
+   // ];
 
     await guild.commands.set(commands);
     console.log(`Registered slash commands for guild ${ALLOWED_GUILD_ID}`);
